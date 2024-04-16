@@ -3,20 +3,16 @@
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
-import os
 import math
-import time
-import shutil
 from Utils.dataloader import get_dataloaders
 from Utils.args import arg_parser
 import models
 from Utils.op_counter import measure_model
-from Utils.loss_functions import _jensen_shannon_reg,Loss_alpha
-from Utils.CDM_module import CDM_Ori_Fusion,CDM_Our_Fusion
+from Utils.loss_functions import Loss_alpha
+from Utils.CDM_module import Uncertainty_aware_Fusion
 args = arg_parser.parse_args()
 
 import torch
-import torch.nn as nn
 import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
@@ -26,46 +22,49 @@ set_random_seed(args.seed)
 def main():
 
     global args
-    # args.cuda_ = 'cuda:3'
-    # args.data_root=r'/daroms/paroms/adversarial/data/'
+    # args.cuda_ = 'cuda:4'
+    args.data_root = r'./data/'
     # args.use_valid = True
-    # args.data='cifar100'
-    # args.data = 'cifar10'
+    # args.data = 'MiNi_ImageNet'
+    args.data = 'ImageNet'
     if args.use_valid:
         args.splits = ['train', 'val', 'test']
     else:
         args.splits = ['train', 'val']
-
     if args.data == 'cifar10':
         args.num_classes = 10
-    elif args.data == 'cifar100':
+    elif args.data == 'cifar100' or args.data == 'MiNi_ImageNet':
         args.num_classes = 100
     else:
         args.num_classes = 1000
-    args.arch='RANet'
-    best_prec1, best_epoch = 0.0, 0
-    # args.step=4
+    # args.growthRate=16
+    # args.nChannels=64
+    # args.arch='RANet'
+    # args.Eval_=True
+    # args.step=7
     # args.stepmode='even'
-    # args.scale_list='1-2-3-3'
-    # args.grFactor='4-2-1-1'
-    # args.bnFactor='4-2-1-1'
-    # args.T=0.5
+    # args.scale_list='1-2-3-4'
+    # args.grFactor='4-2-1-1' #16 16 32 64
+    # args.bnFactor='4-2-1-1' #64 64 128 256
     # args.CDM=True
-    args.Eval_=True
+    # args.batch_size= 64
+    args.workers=1
+
+    ##8个分类器
+
     args.grFactor = list(map(int, args.grFactor.split('-')))
     args.bnFactor = list(map(int, args.bnFactor.split('-')))
     args.scale_list = list(map(int, args.scale_list.split('-')))
     args.nScales = len(args.grFactor)
-
     print(args)
     args.mode_='anytime_CDM'
+
     fname = f'{args.data}_{args.arch}_BS{args.batch_size}_{args.mode_}_{args.cuda_}_LR{args.lr}'
-    logger = Logger(fname, ask=not args.Eval_,dir_name=args.save_dir) #
+    logger = Logger(fname, ask=not args.Eval_,dir_name=args.save_dir) #如果要恢复模型断点续训则不清除
     log_ = logger.log
     args.log_=log_
     args.save = logger.logdir
     args.optim='sgd'
-
     print(fname)
     device=args.cuda_
     best_prec1, best_epoch = 0.0, 0
@@ -104,15 +103,16 @@ def main():
     train_loader, val_loader, test_loader = get_dataloaders(args)
     print(len(train_loader),len(val_loader),len(test_loader))
     # args.evaluate_from='save_models/model_best.pth.tar'
-    args.evalmode='anytime'
+    # args.evalmode='anytime'
     # args.ori_fusion=False
     # args.evalmode='dynamic'
-    if args.ori_fusion or args.our_fusion or args.avge_fusion:
-        from models.inference_CDM import dynamic_evaluate
-        log_('Infer with CDM module')
-    else:
-        from models.inference import dynamic_evaluate
-        log_('Infer without CDM module')
+    if args.evalmode!='anytime':
+        if args.ori_fusion or args.our_fusion or args.avge_fusion:
+            from models.inference_CDM import dynamic_evaluate
+            log_('Dynamic evaluate, infer with CDM module')
+        else:
+            from models.inference import dynamic_evaluate
+            log_('Dynamic evaluate, infer without CDM module')
     if args.evalmode is not None:
         state_dict = torch.load(args.evaluate_from)['state_dict']
         model.load_state_dict(state_dict)
@@ -160,22 +160,15 @@ def validate(val_loader, model, criterion):
                 if j == 0 or j in args.sel_class:
                     fusion_e_dict[j]=output[j]
                 else:
+
                     view_a_temp = {}
                     view_e_temp = []
                     for i in range(j + 1):
                         view_a_temp[i] = view_a_dict[i]
                         view_e_temp.append((view_a_dict[i] - 1).unsqueeze(0))
-                    if args.avge_fusion:
-                        fusion_e_dict[j]=torch.mean(torch.cat(view_e_temp, dim=0), dim=0)
-                    elif args.ori_fusion:
-                        fusion_a_dict[j - 1] = CDM_Ori_Fusion(view_a_temp, args.num_classes)
-                        fusion_e_dict[j]=fusion_a_dict[j - 1] - 1
-                    elif args.our_fusion:
-                        fusion_a_dict[j - 1] = CDM_Our_Fusion(view_a_temp, args.num_classes)
+                        fusion_a_dict[j - 1] = Uncertainty_aware_Fusion(view_a_temp, args.num_classes,balance_term=args.balance_term)
                         fusion_e_dict[j] = fusion_a_dict[j - 1] - 1
-                    else:
-                        args.log_('The fusion method is not selected')
-                        raise NotImplementedError
+
             for j in fusion_e_dict.keys():
                 prec1, prec5 = accuracy(fusion_e_dict[j].data, target, topk=(1, 5))
                 # prec1, prec5 = accuracy(output[j].data, target, topk=(1, 5))

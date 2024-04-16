@@ -4,13 +4,8 @@ import torch.optim
 
 torch.manual_seed(args.seed)
 
-
-import os
 import math
-import time
-import shutil
 from Utils.args import arg_parser
-import models
 
 args = arg_parser.parse_args()
 import torch
@@ -19,20 +14,19 @@ import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
 from Utils.dataloader import get_dataloaders
-from Utils.args import arg_parser
 import models
-from Utils.op_counter import measure_model
-from Utils.loss_functions import _jensen_shannon_reg,Loss_alpha
-from Utils.CDM_module import CDM_Ori_Fusion,CDM_Our_Fusion
+from Utils.loss_functions import _jensen_shannon_reg
+from Utils.CDM_module import Uncertainty_aware_Fusion
 from Utils.utils import *
 set_random_seed(args.seed)
 def main():
 
     global args
     # args.cuda_ = 'cuda:4'
-    # args.data_root='/mini_imagenet'
+    args.data_root = r'./data/'
     # args.use_valid = True
-    # args.data = 'MiNi_ImageNet'
+    args.data = 'MiNi_ImageNet'
+    args.data = 'ImageNet'
     if args.use_valid:
         args.splits = ['train', 'val', 'test']
     else:
@@ -246,17 +240,9 @@ def validate(val_loader, model, criterion):
                     for i in range(j + 1):
                         view_a_temp[i] = view_a_dict[i]
                         view_e_temp.append((view_a_dict[i] - 1).unsqueeze(0))
-                    if args.avge_fusion:
-                        fusion_e_dict[j]=torch.mean(torch.cat(view_e_temp, dim=0), dim=0)
-                    elif args.ori_fusion:
-                        fusion_a_dict[j - 1] = CDM_Ori_Fusion(view_a_temp, args.num_classes)
-                        fusion_e_dict[j]=fusion_a_dict[j - 1] - 1
-                    elif args.our_fusion:
-                        fusion_a_dict[j - 1] = CDM_Our_Fusion(view_a_temp, args.num_classes)
-                        fusion_e_dict[j] = fusion_a_dict[j - 1] - 1
-                    else:
-                        args.log_('The fusion method is not selected')
-                        raise NotImplementedError
+                    fusion_a_dict[j - 1] = Uncertainty_aware_Fusion(view_a_temp, args.num_classes,
+                                                                    balance_term=args.balance_term)
+                    fusion_e_dict[j] = fusion_a_dict[j - 1] - 1
             for j in fusion_e_dict.keys():
                 prec1, prec5 = accuracy(fusion_e_dict[j].data, target, topk=(1, 5))
                 # prec1, prec5 = accuracy(output[j].data, target, topk=(1, 5))

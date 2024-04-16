@@ -7,7 +7,7 @@ import os
 import math
 import torch
 import torch.nn as nn
-from Utils.CDM_module import CDM_Ori_Fusion,CDM_Our_Fusion
+from Utils.CDM_module import Uncertainty_aware_Fusion
 def dynamic_evaluate(model, test_loader, val_loader, args):
     tester = Tester(model, args)
     val_pred, val_target = tester.calc_logit(val_loader)
@@ -71,13 +71,7 @@ class Tester(object):
                         for i in range(j + 1):
                             view_a_temp[i] = view_a_dict[i]
                             view_e_temp.append((view_a_dict[i] - 1).unsqueeze(0))
-                        if self.args.avge_fusion:
-                            fusion_e_dict.append(torch.mean(torch.cat(view_e_temp, dim=0), dim=0))
-                        elif self.args.ori_fusion:
-                            fusion_a_dict[j - 1] = CDM_Ori_Fusion(view_a_temp, self.args.num_classes)
-                            fusion_e_dict.append(fusion_a_dict[j - 1] - 1)
-                        elif self.args.our_fusion:
-                            fusion_a_dict[j - 1] = CDM_Our_Fusion(view_a_temp, self.args.num_classes)
+                            fusion_a_dict[j - 1] = Uncertainty_aware_Fusion(view_a_temp, self.args.num_classes,balance_term=self.args.balance_term)
                             fusion_e_dict.append(fusion_a_dict[j - 1] - 1)
 
                 output=fusion_e_dict
