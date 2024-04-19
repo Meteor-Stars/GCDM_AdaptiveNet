@@ -14,7 +14,7 @@ exp_group.add_argument('--save', default='save/default-{}'.format(time.time()),
                        '(default: save/debug)')
 exp_group.add_argument('--resume', action='store_true', default=False,
                        help='path to latest checkpoint (default: False)')
-exp_group.add_argument('--evalmode', default=None,
+exp_group.add_argument('--evalmode', default='anytime',
                        choices=['anytime', 'dynamic', 'both'],
                        help='which mode to evaluate')
 exp_group.add_argument('--evaluate-from', default='', type=str, metavar='PATH',

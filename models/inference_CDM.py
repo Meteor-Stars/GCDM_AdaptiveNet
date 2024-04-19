@@ -9,6 +9,7 @@ import torch
 import torch.nn as nn
 from Utils.CDM_module import Uncertainty_aware_Fusion
 def dynamic_evaluate(model, test_loader, val_loader, args):
+    ##budgetd batch prediction of using CDM module
     tester = Tester(model, args)
     val_pred, val_target = tester.calc_logit(val_loader)
     test_pred, test_target = tester.calc_logit(test_loader)

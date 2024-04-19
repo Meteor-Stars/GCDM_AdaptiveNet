@@ -7,6 +7,7 @@ import torchvision.datasets as datasets
 
 
 def get_dataloaders(args):
+    #CIFAR10 CIFAR100 ImageNet100 ImageNet1000
     train_loader, val_loader, test_loader = None, None, None
     if args.data == 'cifar10':
         normalize = transforms.Normalize(mean=[0.4914, 0.4824, 0.4467],

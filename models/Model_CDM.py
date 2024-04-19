@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+###Adaptive deep networks
 class ConvBasic(nn.Module):
     def __init__(self, nIn, nOut, kernel=3, stride=1, padding=1):
         super(ConvBasic, self).__init__()

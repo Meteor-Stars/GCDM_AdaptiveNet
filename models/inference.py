@@ -9,6 +9,7 @@ import torch
 import torch.nn as nn
 
 def dynamic_evaluate(model, test_loader, val_loader, args):
+    ##Original budgetd batch prediction
     tester = Tester(model, args)
     # if os.path.exists(os.path.join(args.save, 'logits_single.pth')):
     #     val_pred, val_target, test_pred, test_target = \
@@ -18,6 +19,7 @@ def dynamic_evaluate(model, test_loader, val_loader, args):
     #     test_pred, test_target = tester.calc_logit(test_loader)
     #     torch.save((val_pred, val_target, test_pred, test_target),
     #                 os.path.join(args.save, 'logits_single.pth'))
+    #Obtain threshold
     val_pred, val_target = tester.calc_logit(val_loader)
     test_pred, test_target = tester.calc_logit(test_loader)
     # torch.save((val_pred, val_target, test_pred, test_target),

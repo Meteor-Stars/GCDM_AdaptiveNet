@@ -14,6 +14,7 @@ class Loss_alpha(nn.Module):
         self.loss_ = torch.nn.NLLLoss().cuda()
 
     def forward(self, alpha,labels):
+        #Loss functions
         S = torch.sum(alpha, dim=1, keepdim=True)
         prob = torch.nn.functional.softmax(alpha)
         loss = self.loss_(self.log_sftp(alpha), labels) + prob * (1 - prob) / (S + 1.0)

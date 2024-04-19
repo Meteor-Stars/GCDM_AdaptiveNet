@@ -12,7 +12,7 @@ from tensorboardX import SummaryWriter
 from dateutil.relativedelta import   relativedelta
 
 class Logger(object):
-    """Reference: https://gist.github.com/gyglim/1f8dfb1b5c82627ae3efcfbbadb9f514"""
+    """Reference: https://gist.github.com/gyglim/1f8dfb1b5c82627ae3efcfbbadb9f514 """
 
     def __init__(self, fn, ask=True,minus_1day=False,dir_name="./logs/"):
         self.minus_tag=minus_1day

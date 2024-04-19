@@ -10,7 +10,7 @@ from functools import reduce
 import operator
 
 '''
-    Calculate the FLOPS of each exit without lazy prediction pruning"
+    Calculate the FLOPS of each exit without lazy prediction pruning "
 '''
 
 count_ops = 0
