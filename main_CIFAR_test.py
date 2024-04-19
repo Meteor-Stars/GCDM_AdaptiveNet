@@ -48,7 +48,6 @@ def main():
     # args.T=0.5
     # args.CDM=True
     args.Eval_=True
-    args.balance_term=True
     args.grFactor = list(map(int, args.grFactor.split('-')))
     args.bnFactor = list(map(int, args.bnFactor.split('-')))
     args.scale_list = list(map(int, args.scale_list.split('-')))
@@ -102,7 +101,6 @@ def main():
     print(len(train_loader),len(val_loader),len(test_loader))
     # args.evaluate_from='save_models/model_best.pth.tar'
     args.evalmode='anytime'
-    # args.ori_fusion=False
     # args.evalmode='dynamic'
     if args.ori_fusion or args.our_fusion or args.avge_fusion:
         from models.inference_CDM import dynamic_evaluate
@@ -163,8 +161,7 @@ def validate(val_loader, model, criterion):
                         view_a_temp[i] = view_a_dict[i]
                         view_e_temp.append((view_a_dict[i] - 1).unsqueeze(0))
 
-                    fusion_a_dict[j - 1] = Uncertainty_aware_Fusion(view_a_temp, args.num_classes,
-                                                                    balance_term=args.balance_term)
+                    fusion_a_dict[j - 1] = Uncertainty_aware_Fusion(view_a_temp, args.num_classes)
                     fusion_e_dict[j] = fusion_a_dict[j - 1] - 1
 
             for j in fusion_e_dict.keys():

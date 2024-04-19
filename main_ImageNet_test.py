@@ -103,8 +103,7 @@ def main():
     train_loader, val_loader, test_loader = get_dataloaders(args)
     print(len(train_loader),len(val_loader),len(test_loader))
     # args.evaluate_from='save_models/model_best.pth.tar'
-    # args.evalmode='anytime'
-    # args.ori_fusion=False
+    args.evalmode='anytime'
     # args.evalmode='dynamic'
     if args.evalmode!='anytime':
         if args.ori_fusion or args.our_fusion or args.avge_fusion:
@@ -166,7 +165,7 @@ def validate(val_loader, model, criterion):
                     for i in range(j + 1):
                         view_a_temp[i] = view_a_dict[i]
                         view_e_temp.append((view_a_dict[i] - 1).unsqueeze(0))
-                        fusion_a_dict[j - 1] = Uncertainty_aware_Fusion(view_a_temp, args.num_classes,balance_term=args.balance_term)
+                        fusion_a_dict[j - 1] = Uncertainty_aware_Fusion(view_a_temp, args.num_classes)
                         fusion_e_dict[j] = fusion_a_dict[j - 1] - 1
 
             for j in fusion_e_dict.keys():

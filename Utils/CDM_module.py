@@ -33,10 +33,10 @@ def Uncertainty_aware_Fusion( alpha,classes,balance_term=False):
         e_a = torch.mul(b_a, S_a.expand(b_a.shape))
         alpha_a = e_a + 1
         return alpha_a
-    alpha_a = alpha[0]
+    alpha_fuse = alpha[0]
     for v in range(len(alpha) - 1):
         if v == 0:
-            alpha_a = Sub_UF(alpha[0], alpha[1])
+            alpha_fuse = Sub_UF(alpha[0], alpha[1])
         else:
-            alpha_a = Sub_UF(alpha_a, alpha[v + 1])
-    return alpha_a
+            alpha_fuse = Sub_UF(alpha_fuse, alpha[v + 1])
+    return alpha_fuse
