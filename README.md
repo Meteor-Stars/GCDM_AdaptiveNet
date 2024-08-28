@@ -2,10 +2,9 @@
 This repo provides official code for the paper "Enhancing Adaptive Deep Networks for Image Classification via Uncertainty-aware Decision Fusion" publised in ACM Multimedia 2024. 
 The full version paper is available at the [link](https://arxiv.org/abs/2408.13744).
 
-Our experimental environments involve Pytorch 1.12.1 and Numpy 1.22.4.
 
 ## Method Framework
-<img src="figure/method_framework.jpg" alt="替代文本" width="600" height="auto">
+<img src="figure/method_framework.jpg" alt="替代文本" width="650" height="auto">
 
 ## Results on Anytime Prediction Setting
 <img src="figure/GRAD-CAM.jpg" alt="替代文本" width="400" height="auto">
