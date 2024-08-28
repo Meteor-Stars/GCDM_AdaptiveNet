@@ -1,11 +1,11 @@
-from Utils.args import args
+from utils.args import args
 
 import torch.optim
 
 torch.manual_seed(args.seed)
 
 import math
-from Utils.args import arg_parser
+from utils.args import arg_parser
 
 args = arg_parser.parse_args()
 import torch
@@ -13,11 +13,11 @@ import torch.nn as nn
 import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
-from Utils.dataloader import get_dataloaders
+from utils.dataloader import get_dataloaders
 import models
-from Utils.loss_functions import _jensen_shannon_reg
-from Utils.CDM_module import Uncertainty_aware_Fusion
-from Utils.utils import *
+from utils.loss_functions import _jensen_shannon_reg
+from utils.CDM_module import Uncertainty_aware_Fusion
+from utils.utils import *
 set_random_seed(args.seed)
 def main():
 

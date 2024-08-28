@@ -5,16 +5,12 @@ The full version paper is available at the [link](https://arxiv.org/abs/2408.137
 Our experimental environments involve Pytorch 1.12.1 and Numpy 1.22.4.
 
 ## Method Framework
-<img src="figure/comparison_prediction_settings.jpg" alt="替代文本" width="auto" height="300">
-<img src="figure/method_framework.jpg" alt="替代文本" width="auto" height="300">
 
+<img src="figure/method_framework.jpg" alt="替代文本" width="auto" height="320">
 
 ## Results on Anytime Prediction Setting
-
-
-<img src="figure/metrics.jpg" alt="替代文本" width="auto" height="300">
-
 <img src="figure/GRAD-CAM.jpg" alt="替代文本" width="auto" height="150">
+<img src="figure/metrics.jpg" alt="替代文本" width="auto" height="300">
 
 ## Reproducing Paper Results
 (1) Create a "data" folder and place the downloaded CIFAR10, CAIFAR100, ImageNet100 and ImageNet1000 datasets into it.  

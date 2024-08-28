@@ -4,19 +4,19 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 import math
-from Utils.dataloader import get_dataloaders
-from Utils.args import arg_parser
+from utils.dataloader import get_dataloaders
+from utils.args import arg_parser
 import models
-from Utils.op_counter import measure_model
-from Utils.loss_functions import _jensen_shannon_reg,Loss_alpha
-from Utils.CDM_module import Uncertainty_aware_Fusion
+from utils.op_counter import measure_model
+from utils.loss_functions import _jensen_shannon_reg,Loss_alpha
+from utils.CDM_module import Uncertainty_aware_Fusion
 args = arg_parser.parse_args()
 
 import torch
 import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
-from Utils.utils import *
+from utils.utils import *
 set_random_seed(args.seed)
 
 def main():
