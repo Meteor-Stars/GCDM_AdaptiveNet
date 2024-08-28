@@ -5,8 +5,7 @@ The full version paper is available at the [link](https://arxiv.org/abs/2408.137
 Our experimental environments involve Pytorch 1.12.1 and Numpy 1.22.4.
 
 ## Method Framework
-
-<img src="figure/method_framework.jpg" alt="替代文本" width="800" height="auto">
+<img src="figure/method_framework.jpg" alt="替代文本" width="600" height="auto">
 
 ## Results on Anytime Prediction Setting
 <img src="figure/GRAD-CAM.jpg" alt="替代文本" width="400" height="auto">
