@@ -4,7 +4,7 @@ The full version paper is available at the [link](https://arxiv.org/abs/2408.137
 
 
 ## Method Framework
-<img src="figure/method_framework.jpg" alt="替代文本" width="700" height="auto">
+<img src="figure/method_framework.jpg" alt="替代文本" width="725" height="auto">
 
 ## Results on Anytime Prediction Setting
 <img src="figure/GRAD-CAM.jpg" alt="替代文本" width="400" height="auto">
