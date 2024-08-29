@@ -2,7 +2,7 @@
 This repo provides official code for the paper "Enhancing Adaptive Deep Networks for Image Classification via Uncertainty-aware Decision Fusion" publised in ACM Multimedia 2024. 
 The full version paper is available at the [link](https://arxiv.org/abs/2408.13744).
 
-## Key words: image Classification, fusion, ensemble learning
+## Key words: image classification, fusion, ensemble learning, adaptve deep networks, multi-head classifiers
 
 ## Method Framework
 <img src="figure/method_framework.jpg" alt="替代文本" width="725" height="auto">
