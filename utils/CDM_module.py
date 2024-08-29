@@ -18,21 +18,21 @@ def Uncertainty_aware_Fusion( alpha,classes,balance_term=False):
             E[v] = alpha[v] - 1
             b[v] = E[v] / (S[v].expand(E[v].shape))
             u[v] = classes / S[v]
-        bu = torch.mul(b[0], 1-u[0])
-        ub = torch.mul(b[1], 1 - u[1])
+        bu0 = torch.mul(b[0], 1-u[0])
+        bu1 = torch.mul(b[1], 1 - u[1])
 
         if balance_term:
-            b_a = ((b[0] * 0.5 + b[1] * 0.5 + b[0] * b[1]) / 2 + bu + ub)
-            u_a = u[0] + u[1] + u[0] * u[1]
+            b_f = ((b[0] * 0.5 + b[1] * 0.5 + b[0] * b[1]) / 2 + bu0 + bu1)
+            u_f = u[0] + u[1] + u[0] * u[1]
         else:
             #Fusion without balance term
-            b_a = b[0] * b[1] + bu + ub
-            u_a = u[0] * u[1]
+            b_f = b[0] * b[1] + bu0 + bu1
+            u_f = u[0] * u[1]
 
-        S_a = classes / u_a
-        e_a = torch.mul(b_a, S_a.expand(b_a.shape))
-        alpha_a = e_a + 1
-        return alpha_a
+        S_f = classes / u_f
+        e_f = torch.mul(b_f, S_f.expand(b_f.shape))
+        alpha_f = e_f + 1
+        return alpha_f
     alpha_fuse = alpha[0]
     for v in range(len(alpha) - 1):
         if v == 0:
