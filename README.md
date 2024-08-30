@@ -18,12 +18,12 @@ The full version paper is available at the [link](https://arxiv.org/abs/2408.137
 
 ## Citation
 If you find this repo helpful, please cite our paper.
-`
+```
 @inproceedings{zhang2024enhancing,
   title={Enhancing Adaptive Deep Networks for Image Classification via Uncertainty-aware Decision Fusion},
   author={Zhang, Xu and Xie, Zhipeng and Yu, Haiyang and Wang, Qitong and Wang, Peng and Wang, Wei},
   booktitle={ACM Multimedia 2024}}
-`
+```
 
 
   
