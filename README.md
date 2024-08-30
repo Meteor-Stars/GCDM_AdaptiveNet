@@ -16,6 +16,15 @@ The full version paper is available at the [link](https://arxiv.org/abs/2408.137
 (2) Customize the parameters in "main_CIFAR_train.py" or "main_ImageNet_train.py" and run to train the RANet based on the GCDM framework.  
 (3) Run "main_CIFAR_test.py" or "main_ImageNet_test.py" and apply our proposed CDM module to reproduce the results in the paper across various datasets.
 
+## Citation
+If you find this repo helpful, please cite our paper.
+`
+@inproceedings{zhang2024enhancing,
+  title={Enhancing Adaptive Deep Networks for Image Classification via Uncertainty-aware Decision Fusion},
+  author={Zhang, Xu and Xie, Zhipeng and Yu, Haiyang and Wang, Qitong and Wang, Peng and Wang, Wei},
+  booktitle={ACM Multimedia 2024}}
+`
+
 
   
 
