@@ -1,4 +1,7 @@
 # GCDM (Guided Collaborative Decision Making)
+
+## Simple introduction
+
 This repo provides official code for the paper "Enhancing Adaptive Deep Networks for Image Classification via Uncertainty-aware Decision Fusion" publised in ACM Multimedia 2024. 
 The full version paper is available at the [link](https://arxiv.org/abs/2408.13744).
 
