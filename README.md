@@ -2,7 +2,7 @@
 This repo provides official code for the paper "Enhancing Adaptive Deep Networks for Image Classification via Uncertainty-aware Decision Fusion" publised in ACM Multimedia 2024. 
 The full version paper is available at the [link](https://arxiv.org/abs/2408.13744).
 
-When computational resources are limited, deep networks cannot be used. Currently, two adaptive network classification architectures are employed to alleviate the issue of image classification under limited computational resources. However, classifiers of different depths are not fully and effectively utilized. This work investigates how to improve the accuracy of different classifiers without significantly increasing computational resources when resources are constrained.
+When computational resources are limited, deep networks cannot be used. Currently, several adaptive network architectures with multi-head classifiers are proposed to alleviate the issue of image classification under limited computational resources. However, the knowledge of classifiers in different depths are not fully  utilized. This work investigates how to improve the accuracy of different classifiers without significantly increasing computational resources.
 
 ## Key words: limited computing resources, image classification, uncertainty-aware fusion, ensemble learning, adaptve deep networks, multi-head classifiers  
 
